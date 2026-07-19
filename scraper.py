@@ -52,6 +52,17 @@ def slugify(text: str) -> str:
     return slug.strip("_") or "page"
 
 
+def cleanup_if_empty(run_dir: Path):
+    """Remove run_dir if a failed run never produced any actual output
+    (e.g. the browser never launched, or the page never loaded), so a
+    failed attempt doesn't leave a stray empty folder in output_dir."""
+    try:
+        if run_dir.exists() and not any(p.is_file() for p in run_dir.rglob("*")):
+            shutil.rmtree(run_dir, ignore_errors=True)
+    except OSError as e:
+        logger.debug(f"Could not clean up empty run folder {run_dir}: {e}")
+
+
 def jitter_ms(page, bounds):
     """Wait a random amount of time within a (min_ms, max_ms) range."""
     low, high = bounds
@@ -312,6 +323,7 @@ def run(url: str, keyword: str, selector: str, cfg: dict) -> int:
                     "Make sure Chrome is installed, e.g. run: playwright install chrome"
                 )
                 shutil.rmtree(user_data_dir, ignore_errors=True)
+                cleanup_if_empty(run_dir)
                 return 2
 
             if hasattr(os, "geteuid") and os.geteuid() == 0:
@@ -346,9 +358,11 @@ def run(url: str, keyword: str, selector: str, cfg: dict) -> int:
                     page.goto(url, wait_until="load", timeout=cfg["nav_timeout_ms"])
                 except PlaywrightTimeoutError:
                     logger.error(f"Timed out loading {url} (limit: {cfg['nav_timeout_ms']}ms). Check the URL and your connection.")
+                    cleanup_if_empty(run_dir)
                     return 1
                 except PlaywrightError as e:
                     logger.error(f"Failed to open {url}: {e}")
+                    cleanup_if_empty(run_dir)
                     return 1
 
                 # A brief pause after the page loads, like a person visually
@@ -417,9 +431,11 @@ def run(url: str, keyword: str, selector: str, cfg: dict) -> int:
 
     except PlaywrightError as e:
         logger.error(f"Unexpected Playwright error: {e}")
+        cleanup_if_empty(run_dir)
         return 2
     except Exception as e:  # last-resort safety net so the script never crashes with a raw traceback
         logger.error(f"Unexpected error: {e}")
+        cleanup_if_empty(run_dir)
         return 2
 
     logger.info("Done.")
@@ -479,8 +495,6 @@ def main():
         url = "https://" + url
 
     keyword = args.keyword if args.keyword is not None else cfg["keyword"]
-    if keyword is None:
-        keyword = input("Enter a keyword to search (leave blank to skip searching): ").strip()
 
     exit_code = run(url=url, keyword=keyword, selector=selector, cfg=cfg)
     sys.exit(exit_code)
