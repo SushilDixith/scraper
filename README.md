@@ -3,8 +3,6 @@ Opens a site in real Chrome (via Playwright, with stealth patches and
 human-like typing/scrolling), then saves a screenshot, the HTML, and a
 report on whether Cloudflare/Akamai were detected.
 
-![Architecture diagram](architecture.png)
-
 ## Architecture
 
 The application follows a modular architecture, where the execution is divided into four distinct layers. Each layer is responsible for a specific stage of the automation process, improving maintainability and separation of concerns.
@@ -13,6 +11,8 @@ The application follows a modular architecture, where the execution is divided i
 - Browser Automation Engine: Launches a persistent Chromium browser using Playwright, applies stealth techniques to reduce common automation fingerprints, and performs browser interactions such as searching, typing, and scrolling.
 - Output Generation: Collects data generated during execution, including full-page screenshots, HTML source code, and website assets (CSS, JavaScript, and images), and stores them in a timestamped output directory.
 - Resource Clean Up: Gracefully closes the browser context and removes temporary browser profile data to ensure proper resource management after execution.
+
+![Architecture diagram](architecture.png)
 
 ## Install
 
