@@ -63,6 +63,18 @@ output/<slug>_<timestamp>/
 └── subpages/     # --save-assets only
     └── 01_<slug>/screenshot.png, page.html, sections/
 ```
+## How CDN Detection Works
 
-`cdn_report.txt` flags Cloudflare/Akamai based on response headers, cookies,
-and challenge-page text — a heuristic, not a guarantee.
+`cdn_report.txt` checks three signals to flag Cloudflare or Akamai, and
+notes which ones fired as evidence:
+
+- **Response headers** — e.g. `cf-ray`, `cf-cache-status` for Cloudflare;
+  `server: AkamaiGHost` or `akamai-*` / `x-akamai-*` headers for Akamai.
+- **Cookies** — e.g. `cf_clearance`, `__cf_bm` for Cloudflare;
+  `ak_bmsc`, `_abck`, `bm_sv` for Akamai.
+- **Page content** — challenge or block-page text like "Just a moment...",
+  "Checking your browser", or "Access Denied".
+
+Any one signal is enough to flag a hit. This is a heuristic, not a
+guarantee, a site can sit behind either CDN without tripping any of these
+checks, and a false positive is possible if unrelated text happens to match.
