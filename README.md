@@ -29,9 +29,9 @@ itself a detectable flag.
 ## Usage
 
 ```bash
-python site_scraper.py --url https://example.com
-python site_scraper.py --url https://example.com --keyword "search term"
-python site_scraper.py --url https://example.com --save-assets
+python scraper.py --url https://example.com
+python scraper.py --url https://example.com --keyword "search term"
+python scraper.py --url https://example.com --save-assets
 ```
 
 No `--url`? You'll be prompted for one.
