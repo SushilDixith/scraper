@@ -10,7 +10,7 @@ The application follows a modular architecture, where the execution is divided i
 - Output Generation: Collects data generated during execution, including full-page screenshots, HTML source code, and website assets (CSS, JavaScript, and images), and stores them in a timestamped output directory.
 - Resource Clean Up: Gracefully closes the browser context and removes temporary browser profile data to ensure proper resource management after execution.
 
-![Architecture diagram](architecture.png)
+![Architecture diagram](architecture.svg)
 
 ## Install
 
