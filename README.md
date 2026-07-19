@@ -17,6 +17,8 @@ The application follows a modular architecture, where the execution is divided i
 ## Install
 
 ```bash
+git clone https://github.com/SushilDixith/scraper.git
+cd scraper
 pip install playwright playwright-stealth
 playwright install chrome
 ```
