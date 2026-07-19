@@ -1,11 +1,3 @@
-"""
-Central configuration for the site scraper.
-
-Edit the values below to change default behavior without touching
-the automation logic in site_scraper.py. Command-line arguments
-(when provided) always override these defaults.
-"""
-
 from pathlib import Path
 
 CONFIG = {
