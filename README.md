@@ -63,7 +63,7 @@ output/<slug>_<timestamp>/
 └── subpages/     # --save-assets only
     └── 01_<slug>/screenshot.png, page.html, sections/
 ```
-## How CDN Detection Works
+## CDN Detection
 
 `cdn_report.txt` checks three signals to flag Cloudflare or Akamai, and
 notes which ones fired as evidence:
