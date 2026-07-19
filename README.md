@@ -1,7 +1,5 @@
 # Scraper
-Opens a site in real Chrome (via Playwright, with stealth patches and
-human-like typing/scrolling), then saves a screenshot, the HTML, and a
-report on whether Cloudflare/Akamai were detected.
+Opens a site in Chrome using Playwright with stealth techniques and human-like interaction, captures a screenshot, saves a self-contained HTML copy, and generates a report describing whether Cloudflare, Akamai, or other bot detection challenges were encountered.
 
 ## Architecture
 
