@@ -14,6 +14,23 @@ The application follows a modular architecture, where the execution is divided i
 
 ## Install
 
+Install Python (if not already installed)
+
+Check if Python is installed:
+
+```bash
+python --version
+```
+
+or
+
+```bash
+python3 --version
+```
+
+If Python is not installed, download and install the latest version from:
+https://www.python.org/downloads/
+
 ```bash
 git clone https://github.com/SushilDixith/scraper.git
 cd scraper
